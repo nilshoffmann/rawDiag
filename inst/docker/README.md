@@ -7,21 +7,28 @@
 
 - Get *The New RawFileReader from Thermo Fisher Scientific* from http://planetorbitrap.com/rawfilereader
 
+- Place the rawfile reader nuget package in the 'ThermoRawFileReader' directory (ThermoFisher.CommonCore.RawFileReader.4.0.26.nupkg)
+
 ## Build Docker image
 
 ```bash 
-docker build -t $USER/fgcz-raw:v1  .
+docker build -t $USER/rawdiag:v1  .
 ```
+
+## Run the Docker image
+
+```bash
+docker run --rm -p28288:3838 $USER/rawdiag:v1
+```
+
+Open your browser at 
+
+http://localhost:28288/rawdiag
+
+to see the program in action.
 
 ## Testing
 
+In the rawDiag web-application, select *Type of data source* -> *filesystem* and upload a RAW file via the *Upload RAW files* dialog.
+Select the RAW file by name to populate the various charts in the tabset on the right side of the UI.
 
-copy some sample data in the following we use http://central.proteomexchange.org/cgi/GetDataset?ID=PXD006932
-
-```bash
-docker run -v /scratch/$USER/PXD006932/Exp3A/:/scratch/$USER/PXD006932/Exp3A/ \
-  -a stdin \
-  -a stdout \
-  -i -t \
-  $USER/fgcz-raw:v1 mono /usr/local/bin/fgcz_raw.exe /scratch/$USER/PXD006932/Exp3A/20161213_NGHF_DBJ_SA_Exp3A_HeLa_1ug_7min_7500_03.raw info
-```
